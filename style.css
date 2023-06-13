@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "ogg";
+  src: url(./src/font/Ogg-Custom.woff2) format("woff2");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
