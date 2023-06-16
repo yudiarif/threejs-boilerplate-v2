@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import vertex from "../shaders/vertex.glsl";
 import fragment from "../shaders/fragment.glsl";
 import GUI from "lil-gui";
+import { gsap } from "gsap";
 
 class WebGL {
   constructor() {
@@ -25,6 +26,7 @@ class WebGL {
     this.render();
     this.onWindowResize();
     this.addSetting();
+    //this.onMouseMove();
   }
 
   get viewport() {
@@ -70,6 +72,15 @@ class WebGL {
     // this.controls.enableDamping = true;
     // this.controls.enablePan = true;
     // this.controls.enableZoom = true;
+  }
+  onMouseMove() {
+    this.mouse = [];
+    window.addEventListener("mousemove", (event) => {
+      this.mouse.x = (event.clientX / this.viewport.width) * 2 - 1;
+      this.mouse.y = (event.clientY / this.viewport.height) * 2 - 1;
+      this.mesh.position.x = gsap.utils.interpolate(this.mesh.position.x, this.mouse.x, 0.1);
+      this.mesh.position.y = gsap.utils.interpolate(this.mesh.position.y, -this.mouse.y, 0.1);
+    });
   }
   onWindowResize() {
     this.camera.aspect = this.viewport.aspectRatio;
