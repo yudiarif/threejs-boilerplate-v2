@@ -26,7 +26,7 @@ class WebGL {
     this.render();
     this.onWindowResize();
     this.addSetting();
-    //this.onMouseMove();
+    this.onMouseMove();
   }
 
   get viewport() {
@@ -51,7 +51,7 @@ class WebGL {
   addMesh() {
     this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
     this.material = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 } },
+      uniforms: { uTime: { value: 0 }, resolution: { value: new THREE.Vector4() } },
       vertexShader: vertex,
       fragmentShader: fragment,
       //wireframe: true,
@@ -73,6 +73,32 @@ class WebGL {
     // this.controls.enablePan = true;
     // this.controls.enableZoom = true;
   }
+
+  onWindowResize() {
+    this.camera.aspect = this.viewport.aspectRatio;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.viewport.width, this.viewport.height);
+    this.uWidth = this.container.offsetWidth;
+    this.uHeight = this.container.offsetHeight;
+    this.imageAspect = 1;
+    let a1;
+    let a2;
+
+    if (this.uWidth / this.uHeight > this.imageAspect) {
+      a1 = (this.uWidth / this.uHeight) * this.imageAspect;
+      a2 = 1;
+    } else {
+      a1 = 1;
+      a2 = this.uWidth / this.uHeight / this.imageAspect;
+    }
+    this.material.uniforms.resolution.value.x = this.uWidth;
+    this.material.uniforms.resolution.value.y = this.uHeight;
+    this.material.uniforms.resolution.value.z = a1;
+    this.material.uniforms.resolution.value.w = a2;
+
+    this.camera.updateProjectionMatrix();
+  }
+
   onMouseMove() {
     this.mouse = [];
     window.addEventListener("mousemove", (event) => {

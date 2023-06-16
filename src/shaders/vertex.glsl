@@ -1,4 +1,5 @@
 uniform float uTime;
+uniform vec4 resolution;
 varying vec2 vUv;
 varying vec3 vPosition;
 
