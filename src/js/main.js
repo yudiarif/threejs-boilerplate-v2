@@ -12,7 +12,7 @@ class WebGL {
     this.scene.background = new THREE.Color(0xffffff);
 
     //Renderer
-    this.container = document.querySelector("main");
+    this.container = document.getElementById("webgl");
     this.renderer = new THREE.WebGLRenderer();
     this.container.appendChild(this.renderer.domElement);
     this.renderer.setPixelRatio(2);
